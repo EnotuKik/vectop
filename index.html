@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VECTOR LAB — Шкільний STEM-Тренажер</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ВЕРХНЯ ПАНЕЛЬ -->
+    <header>
+        <div class="header-left">
+            <button class="menu-burger" onclick="toggleMenu()">☰</button>
+            <div class="logo" onclick="showScreen('main')" style="cursor:pointer;"><strong>∠ VECTOR LAB</strong></div>
+        </div>
+        <div class="header-right">
+            <button class="theme-toggle" onclick="toggleTheme()">🌓 Тема</button>
+            <button class="auth-btn">Увійти</button>
+        </div>
+    </header>
+
+    <!-- БОКОВЕ МЕНЮ -->
+    <div id="side-menu" class="side-menu">
+        <div class="menu-profile">
+            <h3>Профіль учня 👤</h3>
+            <button class="auth-btn-menu">Вхід / Реєстрація</button>
+        </div>
+        <nav class="menu-nav">
+            <a href="#" onclick="goFromMenu('8')">8 Клас 📘</a>
+            <a href="#" onclick="goFromMenu('9')">9 Клас 📙</a>
+            <a href="#" onclick="goFromMenu('10')">10 Клас 📗</a>
+            <a href="#" onclick="goFromMenu('11')">11 Клас 📕</a>
+        </nav>
+    </div>
+
+    <!-- ГОЛОВНИЙ ЕКРАН -->
+    <main id="screen-main" class="screen active">
+        <div class="hero">
+            <h1>Зрозумій. Досліди. Відкрий. 🚀</h1>
+            <p>Обери свій клас та почни підготовку до самостійних робіт та НМТ</p>
+        </div>
+        <div class="class-grid">
+            <div class="class-card" onclick="selectClass('8')"><h2>8 Клас 📘</h2><p>Переглянути модулі</p></div>
+            <div class="class-card" onclick="selectClass('9')"><h2>9 Клас 📙</h2><p>Нерівності, Системи, Сукупності</p></div>
+            <div class="class-card" onclick="selectClass('10')"><h2>10 Клас 📗</h2><p>Переглянути модулі</p></div>
+            <div class="class-card" onclick="selectClass('11')"><h2>11 Клас 📕</h2><p>Інтенсив НМТ</p></div>
+        </div>
+    </main>
+
+    <!-- ЕКРАН ТЕМ -->
+    <main id="screen-topics" class="screen">
+        <button class="btn-back" onclick="showScreen('main')">← На головну</button>
+        <h1 id="class-title-display">Теми класу</h1>
+        
+        <div class="subject-section">
+            <h2 class="subject-title">🧮 АЛГЕБРА</h2>
+            <div id="algebra-topics" class="topics-list-container"></div>
+        </div>
+        
+        <div class="subject-section" style="margin-top: 30px;">
+            <h2 class="subject-title">📐 ГЕОМЕТРІЯ</h2>
+            <div id="geometry-topics" class="topics-list-container"></div>
+        </div>
+    </main>
+
+    <!-- ЕКРАН УРОКУ -->
+    <main id="screen-lesson" class="screen">
+        <button class="btn-back" onclick="showScreen('topics')">← До тем класу</button>
+        
+        <div class="lesson-container">
+            <!-- ТЕОРІЯ -->
+            <section class="card-lesson">
+                <span class="badge-step">Крок 1: База 📚</span>
+                <h2 id="lesson-title">Назва теми</h2>
+                <div id="lesson-theory" class="formula-block">Шпаргалка...</div>
+            </section>
+
+            <!-- ПРАКТИКА -->
+            <section class="card-lesson" id="practice-card">
+                <span class="badge-practice" id="step-badge">Крок 2: 🤖 ШІ-Тестування</span>
+                <div class="task-zone">
+                    <p class="task-counter">Завдання <span id="task-number">1</span> з 6</p>
+                    
+                    <div id="math-wrapper" class="math-layout"></div>
+                    
+                    <div class="input-area-math">
+                        <input type="text" id="user-answer" placeholder="Приклад: [-3;5) або (-∞;6]" autocomplete="off">
+                        <button class="btn-submit" onclick="submitAnswer()">Відповісти</button>
+                    </div>
+
+                    <div class="math-keyboard">
+                        <button onclick="insertMath('[')">[</button>
+                        <button onclick="insertMath(']')">]</button>
+                        <button onclick="insertMath('(')">(</button>
+                        <button onclick="insertMath(')')">)</button>
+                        <button onclick="insertMath(';')">;</button>
+                        <button onclick="insertMath('-')">-</button>
+                        <button onclick="insertMath('∞')">∞</button>
+                        <button onclick="clearMathInput()" style="background:#ef4444; color:white;">Очистити</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ПІДСУМОК З ОЦІНКОЮ ТА РОЗБОРОМ -->
+            <section class="card-lesson score-card" id="result-card" style="display: none;">
+                <span class="badge-step" style="background: #eab308;">Крок 3: Результати 🏁</span>
+                <h2 style="margin-bottom:5px;">Твоя оцінка: <span id="score-val">0</span> / 12 балів</h2>
+                <p id="score-feedback-small" class="feedback-small"></p>
+                
+                <h3 style="margin-top: 30px; text-align: left;">📋 Детальний розбір з координатною прямою:</h3>
+                <div id="solutions-review-zone" class="review-zone"></div>
+
+                <div class="choice-zone">
+                    <button onclick="showScreen('topics')" class="btn-finish">← Повернутися до тем</button>
+                    <button id="btn-hard-level" onclick="startHardLevel()" class="btn-challenge">🔥 Ускладнені завдання</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ПОДКЛЮЧЕННЯ СКРИПТА -->
+    <script src="script.js"></script>
+</body>
+</html>
